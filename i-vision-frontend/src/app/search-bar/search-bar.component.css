@@ -1,0 +1,129 @@
+.search-container {
+    width: 90dvw;
+    margin: auto;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    background-color: #f9fafb;
+}
+
+mat-expansion-panel {
+    margin: auto;
+    width: 90dvw;
+    border-radius: 0rem 0rem 1rem 1rem !important;
+    /* padding: 1rem; */
+}
+
+mat-expansion-panel-header {
+    color: rgb(47, 43, 43) !important;
+}
+
+::ng-deep .mat-expansion-panel-body {
+    padding: 1rem !important;
+}
+
+.mat-accordion>.mat-expansion-panel-spacing:first-child,
+.mat-accordion>*:first-child:not(.mat-expansion-panel) .mat-expansion-panel-spacing {
+    margin-top: 1rem;
+}
+
+.input-wrapper {
+    flex: 1;
+}
+
+.search-input {
+    width: 100%;
+    height: 2rem;
+    margin-left: 1rem;
+    background-color: transparent;
+    border: none;
+    font-size: 0.875rem;
+}
+
+.search-input:focus {
+    outline: none;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+}
+
+.image-btn {
+    background-color: transparent;
+    color: #6b7280;
+    transition: background-color 0.2s;
+}
+
+.image-btn:hover {
+    background-color: white;
+}
+
+.search-btn {
+    background-color: transparent;
+    color: rgb(0, 0, 0);
+}
+
+/* ========================== detected object ====================================================== */
+
+
+.object-marker {
+    position: absolute;
+    border: 2px solid #FF0000;
+    border-radius: 4px;
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+.object-marker::after {
+    content: attr(data-label);
+    position: absolute;
+    top: -32px;
+    left: -3px;
+    background-color: #FF0000;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.detection-thumbnail:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.fab-button {
+    background: #FF0000;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.4);
+    transition: all 0.2s;
+}
+
+.fab-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+::ng-deep .cdk-overlay-pane.mat-mdc-dialog-panel {
+    max-width: 95vw !important;
+    max-height: 90vh !important;
+}
+
+::ng-deep .mat-mdc-dialog-container {
+    width: 100dvw !important;
+    height: 100vh !important;
+}

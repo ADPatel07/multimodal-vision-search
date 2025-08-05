@@ -1,0 +1,45 @@
+@if (headerValue) {
+<div class="container">
+    <div class="mb-12">
+        <h1>{{headerValue?.identity | titlecase }}</h1>
+        <p class="description">{{headerValue?.caption}}</p>
+    </div>
+    <div>
+        <div class="w-full flex justify-between">
+            <h2>Similar Images</h2>
+            <p><mat-slide-toggle #toggle [color]="'warn'">Show Box</mat-slide-toggle></p>
+        </div>
+        <div class="masonry-grid" id="gallery">
+            @for (img of mockImages | keyvalue; track $index) {
+            <div class="masonry-item">
+                <div class="gallery-image-container">
+                    <img [src]="'http://localhost:8000/images/'+img?.key" #imageEle (load)="onImageLoad(imageEle, img.value)">
+                    @if(toggle.checked){
+                        @for (obj of img?.value; track $index) {
+                            <div class="object-marker"
+                            [style]="'top:' + obj?.box[1] + 'px; left:' + obj?.box[0] + 'px; width:' + obj?.box[2] + 'px; height:' + obj?.box[3] + 'px;'"
+                            [attr.data-label]="obj?.identity + '('+ obj?.distance +')'"></div>
+    
+                        }
+                    }
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+}
+@else {
+
+<div class="w-[100dvw] h-[90dvh] flex flex-col justify-center items-center">
+    <svg class="text-red-200" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+        <circle cx="9" cy="9" r="2" />
+        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+    </svg>
+    <h1 class="not-found text-red-700">No Similar Images Found</h1>
+    <p class="text-center w-[50%] text-red-800">We couldn't locate any matching images in our database. Try using different visual elements or adjust your search criteria for better results.</p>
+</div>
+
+}

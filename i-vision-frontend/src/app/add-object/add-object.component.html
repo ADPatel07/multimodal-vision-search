@@ -1,0 +1,158 @@
+<main class="mx-auto sm:px-6 w-full h-full flex flex-col justify-center">
+    <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="flex flex-col md:flex-row ">
+            <div class="w-full md:w-2/3 ">
+                <div class="relative w-full h-[200px] sm:h-[500px]">
+                    @if (fileURL) {
+                    <img [src]="fileURL" #searchImg (load)="onImageLoad(searchImg)"
+                        class="max-w-full rounded-lg max-h-full object-contain" />
+                    <!-- Object Markers -->
+                    @for (obj of objects; track $index) {
+                    <div class="object-marker"
+                        [style]="'top:' + obj?.scaledBox[1] + 'px; left:' + obj?.scaledBox[0] + 'px; width:' + obj?.scaledBox[2] + 'px; height:' + obj?.scaledBox[3] + 'px;'"
+                        [attr.data-label]="obj?.identity">
+                    </div>
+                    }
+                    }
+                    @else {
+
+                    <div class="h-full flex flex-col items-center justify-evenly">
+                        <div id="dropZone" (click)="fileInput.click()"
+                            class="border-2 w-full h-90 hover:bg-red-50 border-dashed border-gray-300 rounded-lg flex flex-col justify-center items-center cursor-pointer hover:border-primary transition-all relative">
+                            <input type="file" #fileInput class="hidden" (change)="onFileChange($event)"
+                                accept="image/*" multiple>
+                            <div class="w-12 h-12 mx-auto flex items-center justify-center text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-image-up-icon lucide-image-up">
+                                    <path
+                                        d="M10.3 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10l-3.1-3.1a2 2 0 0 0-2.814.014L6 21" />
+                                    <path d="m14 19.5 3-3 3 3" />
+                                    <path d="M17 22v-5.5" />
+                                    <circle cx="9" cy="9" r="2" />
+                                </svg>
+                            </div>
+
+                            <p class="text-gray-600 mb-2">Choose image to upload</p>
+                        </div>
+
+                        <p>OR</p>
+
+                        <div class="w-full flex gap-2">
+                            <input #inputUrl class="w-full p-2 mx-2 outline-1 rounded-lg focus:outline-1 focus:outline-red-500 placeholder:text-gray-500" type="text" placeholder="paste or enter image url">
+                            <button (click)="onURLsubmit(inputUrl.value)"
+                                class="px-3 flex items-center gap-2 bg-red-500 hover:cursor-pointer text-white rounded-lg hover:bg-red-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-scan-search-icon lucide-scan-search">
+                                    <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+                                    <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+                                    <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+                                    <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+                                    <circle cx="12" cy="12" r="3" />
+                                    <path d="m16 16-1.9-1.9" />
+                                </svg>
+                                Search
+                            </button>
+                        </div>
+                    </div>
+
+                    }
+                </div>
+            </div>
+
+            <div class="w-full md:w-1/2 flex justify-center">
+                <div class="bg-white rounded-lg w-full h-full max-w-xl mx-4 p-2">
+
+                    <form [formGroup]="uploadForm" id="uploadForm"
+                        class="space-y-4 h-full flex flex-col justify-between" (submit)="upload()">
+
+                        <div>
+                            <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                            <div class="relative">
+                                <select id="category" (change)="getCutouts()" name="category" formControlName="category"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg appearance-none pr-10 focus:border-primary focus:ring-1 focus:ring-primary">
+                                    <option value="" disabled selected>--Select Category--</option>
+                                    @for (cetagory of cetagories; track $index) {
+                                    <option value="{{cetagory}}">{{cetagory | titlecase}}</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="flex h-[10rem] items-center gap-2 overflow-x-auto scroll-smooth">
+
+                            @for (obj of objects; track $index; let i = $index) {
+                            <div (click)="changeForm(i)"
+                                class="flex bg-black justify-center items-center {{currentIndex!=i ? 'border-1 border-black-500/100' : 'border-3 border-red-500/100'}} rounded-lg shadow-lg hover:cursor-pointer transition-all detection-thumbnail">
+                                <div class="flex" (mouseover)="changeBorderOnHover()">
+                                    <div
+                                        class="relative w-[7rem] h-[7rem] flex flex-col items-center justify-center rounded-md">
+                                        <img src="data:image/png;base64,{{obj?.object}}"
+                                            class="object-contain w-[80%] h-[80%]" />
+
+                                        <div (click)="removeObject(i)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="absolute top-1 right-1 text-red-600 hover:cursor-pointer hover:text-white">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <path d="m15 9-6 6" />
+                                                <path d="m9 9 6 6" />
+                                            </svg>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            }
+
+                        </div>
+
+                        <ng-container formArrayName="objects"
+                            class="flex items-center gap-2 overflow-x-auto scroll-smooth">
+                            @for (obj of objects; track $index; let i = $index) {
+                            <form [formGroupName]="i" [hidden]="currentIndex != i" class="flex flex-col gap-5">
+                                <div>
+                                    <label for="title"
+                                        class="block text-sm font-medium text-gray-700 mb-1">Identity</label>
+                                    <input type="text" id="title" formControlName="identity"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary">
+                                </div>
+
+                                <div>
+                                    <label for="caption"
+                                        class="block text-sm font-medium text-gray-700 mb-1">Caption</label>
+                                    <textarea id="caption" #caption rows="3" formControlName="caption"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary"></textarea>
+                                </div>
+
+                            </form>
+                            }
+                        </ng-container>
+
+                        <mat-dialog-actions>
+                            <div class="flex justify-end space-x-3 pt-4">
+                                <button type="button" id="cancelUpload" mat-dialog-close
+                                    class="px-4 py-2 flex items-center border border-gray-300 hover:cursor-pointer rounded-lg text-gray-700 hover:bg-gray-50 !rounded-button">
+                                    Cancel
+                                </button>
+                                <button type="submit"
+                                    class="px-4 py-2 flex items-center gap-2 bg-red-500 hover:cursor-pointer text-white rounded-lg hover:bg-red-600 !rounded-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="lucide lucide-upload-icon lucide-upload">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                        <polyline points="17 8 12 3 7 8" />
+                                        <line x1="12" x2="12" y1="3" y2="15" />
+                                    </svg>
+                                    Upload
+                                </button>
+                            </div>
+                        </mat-dialog-actions>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

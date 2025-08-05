@@ -1,0 +1,10 @@
+pymilvus
+sentence-transformers
+transformers
+accelerate
+fastapi
+uvicorn
+Pillow
+google-genai
+dotenv
+ollama

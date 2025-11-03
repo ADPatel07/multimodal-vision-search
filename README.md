@@ -21,6 +21,15 @@ IVision is an advanced computer vision platform that combines cutting-edge AI mo
 - **Modern UI**: Clean and responsive interface built with Angular Material
 - **Scalable Backend**: FastAPI-powered RESTful API with async support
 
+<img width="969" height="462" alt="image" src="https://github.com/user-attachments/assets/3d3b11f9-1615-4487-9ede-e9225082ea96" />
+
+<img width="973" height="468" alt="image" src="https://github.com/user-attachments/assets/db4c6245-bd57-4b68-af34-921bf5a0f8df" />
+
+<img width="967" height="460" alt="image" src="https://github.com/user-attachments/assets/f7192abd-f19b-4eb9-825a-38834435facc" />
+
+<img width="966" height="466" alt="image" src="https://github.com/user-attachments/assets/721c3d1f-d89e-4b5e-b888-f862b5e59229" />
+
+
 ## 🚀 Getting Started
 
 ### Prerequisites
